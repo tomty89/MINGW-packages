@@ -1,0 +1,31 @@
+diff --git a/src/main.c b/src/main.c
+index 8369968..9453a01 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -412,7 +412,7 @@ int main(int argc, char* argv[]) {
+ 			fprintf(stderr,_("The target directory is not valid; it may be an ordinary file.\n"));
+ 		}
+ 	} else {
+-		if (mkdir(targetname, 0777) != 0) {
++		if (mkdir(targetname) != 0) {
+ 			fprintf(stderr,_("Failed creating target directory %s\n"), targetname);
+ 			perror("");
+ 			DVDClose(_dvd);
+@@ -428,7 +428,7 @@ int main(int argc, char* argv[]) {
+ 			fprintf(stderr,_("The title directory is not valid; it may be an ordinary file.\n"));
+ 		}
+ 	} else {
+-		if (mkdir(targetname, 0777) != 0) {
++		if (mkdir(targetname) != 0) {
+ 			fprintf(stderr,_("Failed creating title directory\n"));
+ 			perror("");
+ 			DVDClose(_dvd);
+@@ -443,7 +443,7 @@ int main(int argc, char* argv[]) {
+ 			fprintf(stderr,_("The VIDEO_TS directory is not valid; it may be an ordinary file.\n"));
+ 		}
+ 	} else {
+-		if (mkdir(targetname, 0777) != 0) {
++		if (mkdir(targetname) != 0) {
+ 			fprintf(stderr,_("Failed creating VIDEO_TS directory\n"));
+ 			perror("");
+ 			DVDClose(_dvd);

@@ -3,37 +3,43 @@
 # Contributor: Varun Acharya <varun@archlinux.org>
 # Contributor: Nicolai Lissner <nlissne@linux01.gwdg.de>
 
-pkgname=dvdbackup
+_realname=dvdbackup
+pkgbase=mingw-w64-${_realname}
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
 pkgver=0.4.2
 pkgrel=6
 pkgdesc="Tool to rip video DVDs from the command line"
 arch=('x86_64')
 url="https://dvdbackup.sourceforge.net"
 license=('GPL3')
-depends=('libdvdread')
-optdepends=('libdvdcss: to decrypt encrypted DVDs')
-source=(https://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.xz
-        dvdbackup-dvdread-6.1.patch)
+depends=("${MINGW_PACKAGE_PREFIX}-libdvdread")
+optdepends=("${MINGW_PACKAGE_PREFIX}-libdvdcss: to decrypt encrypted DVDs")
+source=(https://downloads.sourceforge.net/$_realname/$_realname-$pkgver.tar.xz
+        dvdbackup-dvdread-6.1.patch
+        mkdir-no-mode.patch)
 sha512sums=('df9abb2ca0b8a7cd7855ddff94dae249b06b2ec0ee42f3e9c53aa46aebd9885bdf26dacecbd4a20ff5f642ea10c0c64b811d25c23802c8a2b1489281900fbe0d'
-            '3cdbf37b89c9723bff4212e994e194c4da62c9509cadccb47a63eb423675152e7f7fabf866225beef8e6831ac33365648eeccd737c6c54cf211dd354aacd2382')
+            '3cdbf37b89c9723bff4212e994e194c4da62c9509cadccb47a63eb423675152e7f7fabf866225beef8e6831ac33365648eeccd737c6c54cf211dd354aacd2382'
+            '1405ba5e741f3ba35893dc68233f85cc94cfcee3bdb3a38f87dad33090b065bc69b437f7ea9a70a21aba01ada417aaef5e43896cf2fa3439bd814577f7065942')
 
 prepare() {
-  cd $pkgname-$pkgver
+  cd $_realname-$pkgver
   
 # fix build with libdvdread 6.1 https://bugs.launchpad.net/dvdbackup/+bug/1869226
   patch -p0 -i ../dvdbackup-dvdread-6.1.patch
+
+  patch -p1 -i ../mkdir-no-mode.patch
 }
 
 build() {
-  cd $pkgname-$pkgver
+  cd $_realname-$pkgver
 
-  ./configure --prefix=/usr
+  ./configure
 
   make
 }
 
 package() {
-  cd $pkgname-$pkgver
+  cd $_realname-$pkgver
 
   make DESTDIR="$pkgdir" install
 }
